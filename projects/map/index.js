@@ -14,14 +14,14 @@ var map = L.map('map', {
     keyboard:false}).setView([30, 7], 2);
 
 function getColor(id){
-    var maxLightness = 75
-    var minLightness = 35
+    var a = 30
+    var b = 60
     var percent = countryVisits[id]/max_value
     var w1 = percent
     var w2 = 1 - w1
-    var interpolated = (minLightness * w1) + (maxLightness * w2)
-    interpolated = interpolated || 90
-    return `hsl(200, 100%, ${interpolated}%)`;
+    var interpolated = (b * w1) + (a * w2)
+    interpolated = interpolated || 70
+    return `hsl(205, 100%, ${interpolated}%)`;
 }
 
 function getPopupText(e){
@@ -45,7 +45,7 @@ function highlight(e){
     }
 
     last_country_popup = e.target.feature.id;
-    layer.setStyle({fillOpacity: 0.8});
+    layer.setStyle({fillOpacity: 0.3});
     layer.bringToFront();
 }
 
@@ -69,7 +69,7 @@ function style(feature) {
     return {
         fillColor: getColor(feature.id),
         weight: 0.2,
-        color: 'grey',
+        color: 'white',
         fillOpacity: 0.4
     };
 }
@@ -95,7 +95,6 @@ function fetchGeoJson(){
     })
     .then(response => response.json())
     .then(data => {
-        // console.log(data);
         fillMap(data);
     })
     .catch(error => {

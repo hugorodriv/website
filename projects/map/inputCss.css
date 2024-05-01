@@ -7,10 +7,6 @@
     font-size:20px;
 }
 
-.leaflet-container {
-    background: none !important;
-    align-items: center;
-}
 .leaflet-popup-tip {
     background: rgba(0, 0, 0, 0) !important;
     box-shadow: none !important;
