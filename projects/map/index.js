@@ -10,18 +10,19 @@ var map = L.map('map', {
     minZoom: 2,
     maxZoom: 5,
     autoPan: false,
+    zoomSnap: 0.25,
     maxBounds: [[-90,-180],   [90,180]],
-    keyboard:false}).setView([30, 7], 2);
+    keyboard:false}).setView([40, 0], 2);
 
 function getColor(id){
-    var a = 30
-    var b = 60
-    var percent = countryVisits[id]/max_value
-    var w1 = percent
-    var w2 = 1 - w1
-    var interpolated = (b * w1) + (a * w2)
-    interpolated = interpolated || 70
-    return `hsl(205, 100%, ${interpolated}%)`;
+    let a = 25
+    let b = 60
+
+    let percent = countryVisits[id]/max_value
+    let interpolated = (b * percent) + (a * (1 - percent))
+
+    interpolated = interpolated || 20
+    return `hsl(215, 80%, ${interpolated}%)`;
 }
 
 function getPopupText(e){
@@ -37,7 +38,8 @@ function highlight(e){
     var current_country = e.target.feature.id;
     if (current_country != last_country_popup){
         popup = L.popup({
-            closeButton: false        
+            closeButton: false,
+            autoPan: false        
         })
             .setLatLng(e.latlng)
             .setContent(getPopupText(e))
@@ -45,7 +47,7 @@ function highlight(e){
     }
 
     last_country_popup = e.target.feature.id;
-    layer.setStyle({fillOpacity: 0.3});
+    layer.setStyle({fillOpacity: 0.5});
     layer.bringToFront();
 }
 
@@ -60,7 +62,7 @@ function onEachFeature(feature, layer) {
     });
 }
 function resetHighlight(e) {
-    e.sourceTarget.setStyle({fillOpacity:0.4});
+    e.sourceTarget.setStyle({fillOpacity:0.8});
     popup.remove();
     last_country_popup = null;
 }
@@ -69,8 +71,8 @@ function style(feature) {
     return {
         fillColor: getColor(feature.id),
         weight: 0.2,
-        color: 'white',
-        fillOpacity: 0.4
+        color: 'lightgrey',
+        fillOpacity: 0.8
     };
 }
 
@@ -112,8 +114,6 @@ async function fillMap(response){
     geoJson.eachLayer(function (layer) {
         layer.setStyle(style(layer.feature));
     });
-    // map.fitWorld();
 }
-
 
 fetchGeoJson();
