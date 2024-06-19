@@ -4,7 +4,7 @@ var popup;
 var last_country_popup;
 var geoJson;
 
-var map = L.map('map', { 
+var map = L.map("map", { 
     attributionControl:false, 
     maxBoundsViscosity: 0.3,
     minZoom: 2,
@@ -71,17 +71,17 @@ function style(feature) {
     return {
         fillColor: getColor(feature.id),
         weight: 0.2,
-        color: 'lightgrey',
+        color: "lightgrey",
         fillOpacity: 0.8
     };
 }
 
 
 async function fetchCountryData() {
-    return await fetch('countries.json', {
-            method: 'GET',
+    return await fetch("countries.json", {
+            method: "GET",
             headers: {
-                'Accept': 'application/json',
+                "Accept": "application/json",
             },
         })
         .then((response)=>response.json())
@@ -89,10 +89,10 @@ async function fetchCountryData() {
 }
 
 function fetchGeoJson(){
-    fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json', {
-        method: 'GET',
+    fetch("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json", {
+        method: "GET",
         headers: {
-            'Accept': 'application/json',
+            "Accept": "application/json",
         },
     })
     .then(response => response.json())
@@ -100,8 +100,18 @@ function fetchGeoJson(){
         fillMap(data);
     })
     .catch(error => {
-        console.error('Error fetching GeoJSON:', error);
+        console.error("Error fetching GeoJSON:", error);
     });
+}
+function updateTimestampParagraph(timestamp){
+    var timestamp_p = document.getElementById("timestamp_paragraph");
+
+    
+    var dateObj = new Date(timestamp*1000)
+
+    var options = {year: "numeric", month: "long", day: "numeric", hour:"numeric", minute:"numeric"};
+    timestamp_p.textContent += dateObj.toLocaleDateString("en-IE", options);
+
 }
 async function fillMap(response){
     geoJson = L.geoJson(response, {style: style(response)}).addTo(map)
@@ -109,7 +119,12 @@ async function fillMap(response){
         onEachFeature(layer.feature, layer);
     });
 
-    countryVisits = await fetchCountryData();
+    const CountryJSON = await fetchCountryData();
+    
+    countryVisits = CountryJSON["Countries"];
+    updateTimestampParagraph(CountryJSON["Timestamp"]);
+    
+
     max_value = Math.max(...Object.values(countryVisits));
     geoJson.eachLayer(function (layer) {
         layer.setStyle(style(layer.feature));
