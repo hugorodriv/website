@@ -44,8 +44,6 @@ function highlight(e){
         .openOn(map);
 
     last_country_popup = e.target.feature.id;
-    layer.setStyle({fillOpacity: 0.5});
-    layer.bringToFront();
 }
 
 function onEachFeature(feature, layer) {
