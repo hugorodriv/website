@@ -7,12 +7,12 @@ var geoJson;
 var map = L.map("map", { 
     attributionControl:false, 
     maxBoundsViscosity: 0.3,
-    minZoom: 2,
+    minZoom: 1.5,
     maxZoom: 5,
     autoPan: false,
     zoomSnap: 0.25,
     maxBounds: [[-90,-180],   [90,180]],
-    keyboard:false}).setView([40, 0], 2);
+    keyboard:false}).setView([40, 0], 1.5);
 
 function getColor(id){
     let a = 25
@@ -22,7 +22,7 @@ function getColor(id){
     let interpolated = (b * percent) + (a * (1 - percent))
 
     interpolated = interpolated || 20
-    return `hsl(215, 80%, ${interpolated}%)`;
+    return `hsl(210, 100%, ${interpolated}%)`;
 }
 
 function getPopupText(e){
@@ -35,16 +35,13 @@ function getPopupText(e){
 
 function highlight(e){
     var layer = e.target;
-    var current_country = e.target.feature.id;
-    if (current_country != last_country_popup){
-        popup = L.popup({
-            closeButton: false,
-            autoPan: false        
-        })
-            .setLatLng(e.latlng)
-            .setContent(getPopupText(e))
-            .openOn(map);
-    }
+    popup = L.popup({
+        closeButton: false,
+        autoPan: false        
+    })
+        .setLatLng(e.latlng)
+        .setContent(getPopupText(e))
+        .openOn(map);
 
     last_country_popup = e.target.feature.id;
     layer.setStyle({fillOpacity: 0.5});
@@ -56,9 +53,9 @@ function onEachFeature(feature, layer) {
         layer.remove();
     }
     layer.on({
-        click: highlight,
-        mouseover: highlight,
         mouseout: resetHighlight,
+        mouseover: highlight,
+        click: highlight
     });
 }
 function resetHighlight(e) {
