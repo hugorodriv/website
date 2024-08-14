@@ -119,19 +119,53 @@ async function fillMap(response) {
 }
 fetchGeoJson();
 
-const evtSource = new EventSource("//127.0.0.1:8080/events", {});
-evtSource.onopen = function () {
-    console.log('Connection to SSE server opened.');
-};
-evtSource.onerror = function (event) {
-    console.log(event)
-}
+// const evtSource = new EventSource("//127.0.0.1:8080/events", {});
+// evtSource.onopen = function () {
+//     console.log('Connection to SSE server opened.');
+// };
+// evtSource.onerror = function (event) {
+//     console.log(event)
+// }
+//
+// // evtSource.onmessage = function (event) {
+// //     console.log(event)
+// // }
+// evtSource.addEventListener("special-event-name", function (event) {
+//     console.log("event listener:", event);
+// });
+function processEvent(event) {
+    textArr = event.match(/.{1,3}/g);
+    textArr.forEach(country => {
+        // console.log(country)
 
-evtSource.addEventListener("ping", (event) => {
-    console.log("ping")
-    const newElement = document.createElement("li");
-    const eventList = document.getElementById("list");
-    const time = JSON.parse(event.data).time;
-    newElement.textContent = `ping at ${time}`;
-    eventList.appendChild(newElement);
+        geoJson.eachLayer(function (layer) {
+            if (country == layer.feature.id) {
+                layer.options.fillColor = "black"
+                console.log(layer)
+            }
+        });
+    });
+}
+fetch("//127.0.0.1:8080/events").then(response => {
+    const reader = response.body.getReader();
+
+    function read() {
+        reader.read().then(({ done, value }) => {
+            if (done) {
+                console.log("Stream complete");
+                return;
+            }
+            const text = new TextDecoder().decode(value);
+
+            processEvent(text);
+
+            read();
+        }).catch(error => {
+            console.error("Stream error:", error);
+        });
+    }
+
+    read();
+}).catch(error => {
+    console.error("Fetch error:", error);
 });
