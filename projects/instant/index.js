@@ -3,6 +3,7 @@ var max_value;
 var popup;
 var last_country_popup;
 var geoJson;
+var currentlyUpdating = [];
 
 var map = L.map("map", {
     attributionControl: false,
@@ -72,6 +73,14 @@ async function fillMap(response) {
 fetchGeoJson();
 
 function fadeOut(layer) {
+    let id = layer.feature.id;
+    if (currentlyUpdating.includes(id)) {
+        console.log(id)
+        return
+    }
+    currentlyUpdating.push(id)
+    console.log(currentlyUpdating)
+
     let a = 70
     let b = 20
 
@@ -92,6 +101,10 @@ function fadeOut(layer) {
 
         timer = setTimeout(changeOpacity, delay);
     }, delay)
+    //
+    // run after timer
+    //
+    currentlyUpdating = currentlyUpdating.filter(function (e) { return e !== id })
 }
 function processEvent(event) {
     textArr = event.match(/.{1,3}/g);
