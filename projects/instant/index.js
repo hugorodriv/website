@@ -95,9 +95,7 @@ function fadeOut(layer) {
 
         timer = setTimeout(changeOpacity, delay);
     }, delay)
-    //
-    // run after timer
-    //
+
     currentlyUpdating = currentlyUpdating.filter(function (e) { return e !== id })
 }
 function processEvent(event) {
@@ -116,13 +114,12 @@ function processEvent(event) {
     });
 }
 
-fetch("//127.0.0.1:8080/events").then(response => {
+fetch("//hugor.me:8080/instant_events").then(response => {
     const reader = response.body.getReader();
 
     function read() {
         reader.read().then(({ done, value }) => {
             if (done) {
-                console.log("Stream complete");
                 return;
             }
             const text = new TextDecoder().decode(value);
@@ -131,11 +128,9 @@ fetch("//127.0.0.1:8080/events").then(response => {
 
             read();
         }).catch(error => {
-            console.error("Stream error:", error);
         });
     }
 
     read();
 }).catch(error => {
-    console.error("Fetch error:", error);
 });
