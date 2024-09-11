@@ -114,7 +114,7 @@ function processEvent(event) {
     });
 }
 
-fetch("//hugor.me:8080/instant_events").then(response => {
+fetch("http://hugor.me:8080/instant_events").then(response => {
     const reader = response.body.getReader();
 
     function read() {
@@ -128,9 +128,11 @@ fetch("//hugor.me:8080/instant_events").then(response => {
 
             read();
         }).catch(error => {
+            console.log(error)
         });
     }
 
     read();
 }).catch(error => {
+    console.log(error)
 });

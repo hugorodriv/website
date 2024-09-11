@@ -17,7 +17,7 @@ var map = L.map("map", {
 
 function getColor(id) {
     let a = 30
-    let b = 50
+    let b = 100
 
     let percent = countryVisits[id] / max_value
     let interpolated = (b * percent) + (a * (1 - percent))
