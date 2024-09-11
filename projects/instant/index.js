@@ -53,17 +53,11 @@ function fetchGeoJson() {
 
 async function fillMap(response) {
     geoJson = L.geoJson(response, {
-        style: {
-            fillColor: `hsl(210, 100%, 20%)`,
-            weight: 0.2,
-            color: "lightgrey",
-            fillOpacity: 0.8
-        }
     }).addTo(map)
 
     geoJson.eachLayer(function (layer) {
         layer.setStyle({
-            fillColor: `hsl(210, 100%, 20%)`,
+            fillColor: `hsl(185, 80%, 40%)`,
             weight: 0.2,
             color: "lightgrey",
             fillOpacity: 0.8
@@ -81,8 +75,8 @@ function fadeOut(layer) {
     currentlyUpdating.push(id)
     console.log(currentlyUpdating)
 
-    let a = 70
-    let b = 20
+    let a = 70 // maximum
+    let b = 40 // minimum
 
     let percent = 0
     let interpolated = (b * percent) + (a * (1 - percent))
@@ -94,7 +88,7 @@ function fadeOut(layer) {
         if (percent < 1.0) {
             interpolated = (b * percent) + (a * (1 - percent))
             layer.setStyle({
-                fillColor: `hsl(210, 100%, ${interpolated}%)`
+                fillColor: `hsl(185, 80%, ${interpolated}%)`
             });
             percent += step
         }
