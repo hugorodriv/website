@@ -2,44 +2,46 @@
     <head>
         <meta charset="utf-8">
         <title>Projects</title>
-        <link rel="stylesheet" type="text/css" href="index.css">
+        <link rel="stylesheet" type="text/css" href="../index.css">
     </head>
-    <body class="bg-gray-900">
+    <body class="">
 
-  
-      <div class="m-auto flex flex-col min-h-screen max-w-2xl">
-        
-        <nav class="py-10">
-            <a class="hover:bg-gray-800 hover:text-white border hover:border-gray-400 border-gray-600 text-gray-100 py-3 px-4 rounded-lg  mx-1" href="https://hugor.me">Home</a>
-            <a class="hover:bg-gray-800 hover:text-white border hover:border-gray-400 border-gray-600 text-gray-300 py-3 px-4 rounded-lg  mx-1" href="https://hugor.me/about">About</a>
-            <a class="hover:bg-gray-800 hover:text-white border hover:border-gray-400 border-gray-600 text-gray-300 py-3 px-4 rounded-lg  mx-1 bg-gray-800" href="https://hugor.me/projects">Projects</a>
-            <a class="hover:bg-gray-800 hover:text-white border hover:border-gray-400 border-gray-600 text-gray-300 py-3 px-4 rounded-lg  mx-1" href="https://github.com/hugorodriv">Github</a>
+
+      <div class="m-auto flex flex-col min-h-screen max-w-3xl">
+
+        <nav class="py-8 text-right">
+            <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500" href="https://hugor.me">About</a>
+            <a class="font-bold  mx-5 hover:border-b-2 hover:border-b-cyan-500 " href="https://hugor.me/projects">Projects</a>
+            <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500 " href="https://github.com/hugorodriv">Github</a>
+
         </nav>
-        <p class="pt-10 text-white text-5xl font-bold font-sans">Projects</p>
-        <p class="pt-6 leading-9 text-gray-200 text-xl font-sans">
-            These are some projects I'm working on on my free time: 
-        </p>
-        
-        <div>
-          
+        <div class="mt-20 text-center flex items-center max-w mx-auto">
+            <p class="text-4xl font-bold font-sans">Projects</p>
+        </div>
+
+        <div class="mt-8">
+
           <a href="map">
-            <div class="rounded border border-gray-700 bg-gray-800 my-5">
-              <img class="w-56 border rounded m-auto my-5" src="./map.png">
-              <p class="text-white my-auto font-bold font-sans text-center">Map</p>
-              <p class="text-white my-auto font-sans text-center">Map showcasing location for each connection to this website</p>
-              <br>
+            <div class="py-6 shadow rounded bg-gray-100 my-5 flex flex-col">
+              <p class="m-auto inline-block text-xl text-center border-b-2 border-cyan-500">Historical access map</p>
+              <img class="w-64 rounded mx-auto my-5" src="./map.png">
+              <p class="text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
+                Map displaying the country of origin of the connections to this website in the last 24https
+              </p>
             </div>
           </a>
-          
-          <div class="rounded border border-gray-700 bg-gray-800">
-            <p class="text-white mt-5 font-sans text-center"> . . . </p>
-            <br>
-          </div>
-          
+
+          <a href="instant">
+            <div class="py-6 shadow rounded bg-gray-100 my-5 flex flex-col">
+              <p class="m-auto inline-block text-xl text-center border-b-2 border-cyan-500">Instant access map</p>
+              <img class="w-64 rounded mx-auto my-5" src="./instant_map.png">
+              <p class="text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
+                Showcase connections to this website, in real time, in their country of origin
+            </p>
+            </div>
+          </a>
 
         </div>  
-        
-                   
       </div>
     </body>
 </html>
