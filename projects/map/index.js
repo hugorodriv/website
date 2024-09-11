@@ -16,14 +16,14 @@ var map = L.map("map", {
 }).setView([40, 0], 1.5);
 
 function getColor(id) {
-    let a = 30
-    let b = 100
+    let a = 80
+    let b = 50
 
     let percent = countryVisits[id] / max_value
     let interpolated = (b * percent) + (a * (1 - percent))
 
-    interpolated = interpolated || 25 // substitute null for 25 (would end up being a black color)
-    return `hsl(185, 80%, ${interpolated}%)`;
+    interpolated = interpolated || (a + 7)
+    return `hsl(185, ${interpolated}%, ${interpolated + 5}%)`;
 }
 
 function getPopupText(e) {
@@ -67,7 +67,7 @@ function style(feature) {
     return {
         fillColor: getColor(feature.id),
         weight: 0.2,
-        color: "lightgrey",
+        color: "gray",
         fillOpacity: 0.8
     };
 }
