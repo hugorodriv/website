@@ -1,56 +1,76 @@
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Projects</title>
-        <link rel="stylesheet" type="text/css" href="../index.css">
-    </head>
-    <body class="">
+
+<head>
+    <meta charset="utf-8">
+    <title>Projects</title>
+    <link rel="stylesheet" type="text/css" href="../index.css">
+</head>
+
+<body class="">
 
 
-      <div class="m-auto flex flex-col min-h-screen max-w-3xl">
+    <div class="m-auto flex flex-col min-h-screen max-w-3xl">
 
         <nav class="py-8 text-right">
             <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500" href="https://hugor.me">About</a>
-            <a class="font-bold  mx-5 hover:border-b-2 hover:border-b-cyan-500 " href="https://hugor.me/projects">Projects</a>
-            <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500 " href="https://github.com/hugorodriv">Github</a>
+            <a class="font-bold  mx-5 hover:border-b-2 hover:border-b-cyan-500 "
+                href="https://hugor.me/projects">Projects</a>
+            <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500 "
+                href="https://github.com/hugorodriv">Github</a>
 
         </nav>
-        <div class="mt-10 text-center flex items-center max-w mx-auto">
+        <div class="mt-10 text-center items-center max-w mx-auto">
             <p class="text-4xl font-bold font-sans">Projects</p>
+            <p class="mt-5 text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
+                Click each card to learn more about each project
+            </p>
         </div>
 
-        <div class="mt-8">
 
-          <a href="map">
-            <div class="py-6 shadow rounded bg-gray-100 my-5 flex flex-col">
-              <p class="m-auto inline-block text-xl text-center border-b-2 border-cyan-500">Historical access map</p>
-              <img class="w-64 rounded mx-auto my-5" src="./map.png">
-              <p class="text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
-                Map displaying the country of origin of the connections to this website in the last 24h
-              </p>
-            </div>
-          </a>
+        <div class="grid lg:grid-cols-2 gap-4 mt-8">
+            <a class="flex flex-col h-full" href="website">
+                <div class="p-6 shadow rounded bg-gray-100 flex flex-col h-full">
+                    <p class="m-auto inline-block text-xl text-center border-b-2 border-cyan-500">Personal website</p>
 
+                    <p class="mt-5 text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
+                        Personal website (this one!) hosted in a VPS with NGINX
+                    </p>
+                </div>
+            </a>
 
-          <!-- TODO: SSE server  -->  
-          <!-- <a href="instant">  -->
-          <!--   <div class="py-6 shadow rounded bg-gray-100 my-5 flex flex-col">  -->
-          <!--     <p class="m-auto inline-block text-xl text-center border-b-2 border-cyan-500">Instant access map</p>  -->
-          <!--     <img class="w-64 rounded mx-auto my-5" src="./instant.gif">  -->
-          <!--     <p class="text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">  -->
-          <!--       Showcase connections to this website, in real time, in their country of origin  -->
-          <!--   </p>  -->
-          <!--   </div>  -->
-          <!-- </a>  -->
+            <a class="flex flex-col h-full" href="map">
+                <div class="p-6 shadow rounded bg-gray-100 flex flex-col h-full">
+                    <p class="m-auto inline-block text-xl text-center border-b-2 border-cyan-500">Historical access map
+                    </p>
+                    <img class="w-64 rounded mx-auto my-5" src="./map.png" alt="world map">
+                    <p class="text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
+                        Map displaying the country of origin of the connections to this website in the last 24h
+                    </p>
+                </div>
+            </a>
 
-          <a href="">
-              <div class="py-6 shadow rounded bg-gray-100 my-5 flex flex-col">
-                  <p class="text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
-                      . . . 
-                  </p>
-              </div>
-          </a>
-        </div>  
-      </div>
-    </body>
+            <!-- <a class="flex flex-col h-full" href="instant"> -->
+            <!--     <div class="py-6 shadow rounded bg-gray-100 flex flex-col h-full"> -->
+            <!--         <p class="m-auto inline-block text-xl text-center border-b-2 border-cyan-500">Instant access map</p> -->
+            <!--         <img class="w-64 rounded mx-auto my-5" src="./instant.gif"> -->
+            <!--         <p class="text-gray-800 tracking-wide text-wrap my-auto font-sans text-center"> -->
+            <!--             Showcase connections to this website, in real time, in their country of origin -->
+            <!--         </p> -->
+            <!--     </div> -->
+            <!-- </a> -->
+
+            <a class="flex flex-col h-full" href="#">
+                <div class="py-6 shadow rounded bg-gray-100 flex flex-col h-full">
+                    <p class="text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
+                        . . .
+                        <br>
+                        more soon!
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</body>
+
 </html>
