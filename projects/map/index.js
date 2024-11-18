@@ -7,13 +7,13 @@ var geoJson;
 var map = L.map("map", {
     attributionControl: false,
     maxBoundsViscosity: 0.3,
-    minZoom: 1.5,
+    minZoom: 1,
     maxZoom: 5,
     autoPan: false,
     zoomSnap: 0.25,
     maxBounds: [[-90, -180], [90, 180]],
     keyboard: false
-}).setView([40, 0], 1.5);
+}).setView([60, 0], 1);
 
 function getColor(id) {
     let a = 80

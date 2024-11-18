@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="../../index.css">
 </head>
 
-<body>
-    <div class="m-auto flex flex-col min-h-screen max-w-3xl">
+<body class="bg-gray-50 text-gray-900">
 
-        <nav class="py-8 text-right">
+    <div class="m-auto flex flex-col min-h-screen max-w-6xl">
+
+        <nav class="py-8 text-right border-b border-b-gray-200">
             <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500" href="https://hugor.me">About</a>
             <a class="font-bold  mx-5 hover:border-b-2 hover:border-b-cyan-500 "
                 href="https://hugor.me/projects">Projects</a>
@@ -19,32 +20,32 @@
                 href="https://github.com/hugorodriv">Github</a>
         </nav>
 
-        <div class="mt-10 text-center flex items-center max-w mx-auto">
-            <p class="text-4xl font-bold font-sans my-5 ">Personal website</p>
+        <div class="mt-10 text-center">
+            <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Personal Website</h1>
+            <p class="text-lg text-gray-500">Showcasing projects and hosting information</p>
         </div>
 
 
-        <div class="grid lg:grid-cols-2 gaps-4 overflow-hidden w-full h-auto">
+        <div class="grid lg:grid-cols-2 gaps-8 overflow-hidden w-full h-auto">
+
+            <!-- picture  -->
             <div class="mt-10 lg:m-10">
-                <img src="../map.png" class="shadow rounded-lg" />
+                <img src="../website.png" class="shadow-md rounded-lg " />
             </div>
 
-
-            <div>
-                <div class="mt-10 shadow p-6 text-xl font-sans bg-gray-100 rounded-lg text-gray-800">
-                    <p class="">
+            <!-- text -->
+            <div class="">
+                <div class="mt-10 shadow-md bg-white p-6 text-xl font-sans rounded-lg text-gray-700">
+                    <p>
                         Personal website (the one you are currently in) for showcasing contact information and various
-                        projects I work on in my free time
-                    </p>
-                    <br>
-                    <br>
-                    <p class="">
+                        projects I am working on.
+                        <br>
+                        <br>
                         This website and all of the projects listed (some require of a backend service) are all hosted
-                        in a VPS running Debian.
+                        in a VPS running Debian that I manage myself.
                         <br>
                         <br>
                         NGINX is used for the hosting and the other various services running in the background are ran
-                        periodically using chron, or are constantly running as a SystemD service
                     </p>
                 </div>
 
@@ -54,6 +55,10 @@
                 </div>
             </div>
         </div>
+        <footer class="mt-auto py-6 text-center border-t border-gray-200">
+            <p class="text text-gray-500">Hugo Rodriguez</p>
+        </footer>
+
     </div>
 
     <script src="index.js"></script>

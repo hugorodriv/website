@@ -1,37 +1,37 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>Projects</title>
-    <link rel="stylesheet" type="text/css" href="../index.css">
+    <title>World map</title>
+
+    <link rel="stylesheet" href="../index.css">
 </head>
 
-<body class="">
-
+<body class="bg-gray-50 text-gray-900">
 
     <div class="m-auto flex flex-col min-h-screen max-w-3xl">
 
-        <nav class="py-8 text-right">
+        <nav class="py-8 text-right border-b border-b-gray-200">
             <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500" href="https://hugor.me">About</a>
             <a class="font-bold  mx-5 hover:border-b-2 hover:border-b-cyan-500 "
                 href="https://hugor.me/projects">Projects</a>
             <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500 "
                 href="https://github.com/hugorodriv">Github</a>
-
         </nav>
-        <div class="mt-10 text-center items-center max-w mx-auto">
-            <p class="text-4xl font-bold font-sans">Projects</p>
-            <p class="mt-5 text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
-                Click each card to learn more about each project
-            </p>
+
+        <div class="mt-10 text-center">
+            <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Projects</h1>
+            <p class="text-lg text-gray-500">Click on each to learn more!</p>
         </div>
+
 
 
         <div class="grid lg:grid-cols-2 gap-4 mt-8">
             <a class="flex flex-col h-full" href="website">
                 <div class="p-6 shadow rounded bg-gray-100 flex flex-col h-full">
                     <p class="m-auto inline-block text-xl text-center border-b-2 border-cyan-500">Personal website</p>
-
+                    <img class="w-64 rounded mx-auto my-5 rounded" src="./website.png" alt="world map">
                     <p class="mt-5 text-gray-800 tracking-wide text-wrap my-auto font-sans text-center">
                         Personal website (this one!) hosted in a VPS with NGINX
                     </p>
@@ -69,6 +69,9 @@
                 </div>
             </a>
         </div>
+        <footer class="mt-auto py-6 text-center border-t border-gray-200">
+            <p class="text text-gray-500">Hugo Rodriguez</p>
+        </footer>
     </div>
 
 </body>
