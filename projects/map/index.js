@@ -3,6 +3,7 @@ var max_value;
 var popup;
 var last_country_popup;
 var geoJson;
+var totalCount = 0
 
 var map = L.map("map", {
     attributionControl: false,
@@ -109,6 +110,10 @@ function updateTimestampParagraph(timestamp) {
     timestamp_p.textContent += dateObj.toLocaleDateString("en-IE", options);
 
 }
+function uptateTotalCount(totalCount) {
+    var count_p = document.getElementById("totalcount_paragraph");
+    count_p.textContent = "Total number of visits: " + String(totalCount);
+}
 async function fillMap(response) {
     geoJson = L.geoJson(response, { style: style(response) }).addTo(map)
     geoJson.eachLayer(function (layer) {
@@ -122,6 +127,13 @@ async function fillMap(response) {
 
 
     max_value = Math.max(...Object.values(countryVisits));
+    Object.values(countryVisits).forEach(c => {
+        totalCount += c;
+    });
+
+    uptateTotalCount(totalCount);
+
+
     geoJson.eachLayer(function (layer) {
         layer.setStyle(style(layer.feature));
     });
