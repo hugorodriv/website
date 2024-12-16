@@ -68,7 +68,256 @@
 
         </div>
 
-        <footer class="mt-auto py-6 text-center border-t border-gray-200">
+
+        <!-- Article -->
+        <div class="mt-20 p-14 bg-white rounded-lg shadow-md">
+
+            <div class="prose !max-w-none">
+                <h1 class="text-center"> A seemingly simple challenge </h1>
+
+                <p>The task was simple: I wanted to display an interactive map with how many visits to my website I got
+                    for
+                    each country.</p>
+
+                <p>I had access to the server logs, which stores the IP addresses of the requests performed, and I knew
+                    that
+                    it was possible to geolocate IP addresses, as I know of services that do exactly that: so, how hard
+                    can
+                    it be?</p>
+                <br>
+
+                <h1>Gathering and location IPs</h1>
+
+                <p>I had access to the NGINX’s access logs, and after looking around for a bit I discovered that my
+                    website
+                    gets way more hits than I originally anticipated. In the range of the thousands a day, which is how
+                    often NGINX refreshes <em>access.log.</em></p>
+
+                <h2>Geolocating each IP address</h2>
+
+                <p>I wanted to have a map that was updated often, so the first option I considered was using some API
+                    for
+                    finding out the country of origin for each IP.</p>
+
+                <p>The problem then lied on the following: If I wanted to use such a service, the speed at which I could
+                    geolocate each IP is fairly slow (70ms, being generous)?, so I would have needed to keep the past IP
+                    addresses’ locations somewhere, to not repeat each query unnecessarily and try to reduce time.</p>
+
+                <p>That posed another problem. How could I tell which IP I have already looked over and which one I
+                    hadn’t?
+                    Storing them all in a really big object (a map, or an array) seemed not ideal.<br />
+                    I considered annotating the exact time for each request, storing that, and then reading the file
+                    again
+                    from that point onwards every time I wanted to refresh the map, but then I thought of a better
+                    solution:
+                </p>
+
+                <h3>Local IP geo database</h3>
+
+                <p>I knew that ISPs have a certain range of IP addresses they can provide to their customers, which made
+                    me
+                    wonder: Is there anybody that has collected these ranges in a database so I could find them locally?
+                </p>
+
+                <p>Turns out: yes! There are many databases with that information, and moreover, because I’m only
+                    interested
+                    in the country, there are even more with country information, and completely free for personal use.
+                </p>
+
+                <p>I settled on this database by DB-IP: <a href="https://db-ip.com">https://db-ip.com</a> , which looks
+                    like
+                    this:</p>
+
+                <p class="border !w-fit p-3">
+                    <code>1.24.0.0,1.31.255.255,CN 1.0.64.0,1.0.127.255,JP ( ... )</code>
+                </p>
+
+                <p>It’s in CSV form. The first entry is the start of the range, followed by the end of the range, and
+                    then
+                    the country code.</p>
+
+                <p>For reasons that we will explore later (GeoJSON format), I needed to convert that country code from
+                    the 2
+                    letter format to the 3 letter one on the local database, to avoid the complexity of having to
+                    translate
+                    it later, down the line.</p>
+
+                <p>Both of these code styles are ISO standards, so I built a simple python script that used a lookup
+                    table
+                    to translate them locally and modify the database.</p>
+
+                <h2></h2>
+
+                <h2>Reading through the log file</h2>
+
+                <p>The plan was: read through the <strong><em>access.log</em></strong> file, annotate every IP address,
+                    and
+                    find its corresponding range in the local database.</p>
+
+                <p>There was only one problem: The location database has approximately 300.000 entries.<br />
+                    So, for a thousand IPs, comparing them against 300.000 ranges would yield a very slow and
+                    inefficient
+                    program, so I had to come up with a better solution.</p>
+
+                <p>Examining the database I found something very useful: Turns out, the IP ranges are listed in order!
+                </p>
+
+                <p>So, to reduce the time complexity from <strong><em>O(n)</em></strong> to <strong><em>O(log
+                            n)</em></strong> it was as simple as performing binary search! <a
+                        href="https://en.wikipedia.org/wiki/Binary_search">https://en.wikipedia.org/wiki/Binary_search</a>
+                </p>
+
+                <p>To avoid the complexity of having to process strings multiple times, I opted for storing the IP
+                    ranges in
+                    memory as <em>Integers</em>, instead of the actual IP. The conversion was fairly simple, as IPv4 can
+                    be
+                    directly translated into 32 bit <strong><em>Integers</em></strong></p>
+
+                <p>The conversion logic involves bit shifting and addition, so it is fairly speedy:</p>
+
+                <p class="border !w-fit p-3">
+                    <code>
+                        func IpToInt(ip string) <br>
+                        uint32 { split := strings.Split(ip, ".") <br>
+                        part1, _ := strconv.Atoi(split[0]) <br>
+                        part2, _ := strconv.Atoi(split[1]) <br>
+                        part3, _ := strconv.Atoi(split[2]) <br>
+                        part4, _ := strconv.Atoi(split[3]) <br>
+                        IpInt := (part1 &lt;&lt; 24) + (part2 &lt;&lt; 16) + (part3 &lt;&lt; 8) + part4 }
+                    </code>
+                </p>
+
+                <p>With some CSV parsing and this logic, a database with Ip ranges for each country was now loaded into
+                    memory.</p>
+
+                <p>Then, it was as simple as traversing the <em>access.log</em> file, converting each IP to an
+                    <strong><em>Integer</em></strong>, and performing binary search to look for its corresponding
+                    country in
+                    our database.
+                </p>
+
+                <p>The results of this optimization are very clear in just this one example:</p>
+
+                <p class="border !w-fit p-3">
+                    <code>[Binary search] 12246 requests processed in 131 ms [Original, linear search] 12246 requests
+                        processed in 2042 ms
+                    </code>
+
+                </p>
+
+                <p>Much better!</p>
+
+                <p>Then, it was as simple as storing every hit for each country in a map which then got converted into
+                    JSON
+                    for the server to send to the frontend.</p>
+
+                <br>
+                <h1>Running the script periodically</h1>
+
+                <p>Go (as opposed to Python, my 2nd option for this backend task) nicely compiles into a tidy
+                    executable. No
+                    need to worry about libraries or external packages.<br />
+                    To run this program I created a simple Bash script that does the following:</p>
+
+                <ul>
+                    <li>Copy <em>access.log</em> into a local folder</li>
+                    <li>Change the permissions of the file so it can be read from user account</li>
+                    <li>Run the Go program, which extracts the values for the number of visit per country</li>
+                    <li>Copy this JSON file so NGINX can then serve it</li>
+                </ul>
+
+
+                <p>To then run this Bash script crontab with the following rule (for execution every 15min) was enough:
+                </p>
+
+                <p class="border !w-fit p-3">
+                    <code>*/15 * * * * /home/user/runGoAnalyse.sh</code>
+                </p>
+
+                <br <h1>Displaying the information</h1>
+
+                <p>I opted for using the Leaflet <a
+                        href="https://github.com/Leaflet/Leaflet">https://github.com/Leaflet/Leaflet</a> library to
+                    handle
+                    the map on the frontend. It offers a great deal of customizability and many features, lots of which
+                    I
+                    didn’t need for this project so I could easily disable to display a simple map.</p>
+
+                <h2>Drawing a map</h2>
+
+                <p>Populating the map starts by loading a file containing GeoJSON <a
+                        href="https://en.wikipedia.org/wiki/GeoJSON">https://en.wikipedia.org/wiki/GeoJSON</a>. I found
+                    some
+                    GeoJSON in GitHub containing all countries and pretty low resolution, which actually gives a bit of
+                    a
+                    low-poly style to the map that I actually like.</p>
+
+                <p>This file is essentially a list of every country, with its corresponding country code, and a list of
+                    coordinates of lines for the application to draw its borders, creating a polygon:</p>
+
+                <p class="border !w-fit p-3">
+                    <code>
+                        {"id":"ESP",”Coordinates": [[[-9.034818,41.880571], [-8.984433,42.592775],<br>
+                        [-9.392884,43.026625],<br>
+                        ( ... ) *simplified<br>
+                    </code>
+                </p>
+
+                <p><em>This is why I previously switched from the 2 letter country code to the 3 letter one.</em></p>
+
+                <p>With this file, drawing a map was very straightforward with Leaflet’s <em>geoJson()</em> function</p>
+
+                <p>Some styling later, and we have a map!</p>
+
+                <h2>Filling the map</h2>
+
+                <p>Now the task was just to fetch the JSON file from the server that contained the number of hits for
+                    each
+                    country.<br />
+                    This is done with a simple <em>fetch(),</em> once this file is obtained we iterate over all
+                    countries,
+                    updating their color with a simple linear interpolation for the color (darker blues \= more visits,
+                    and
+                    vice versa)</p>
+
+                <p>With some other tweaks, like adding a popup with the name and count, and default values for zoom and
+                    position, the map was finally done and working!<br />
+                    In the bottom there’s a tag with information about the last update. At the time of writing, this
+                    feature
+                    has been running every 15 minutes for more than 200 days, with no crashes!</p>
+
+                <br>
+                <br>
+                <h1>Future updates</h1>
+
+                <h2>Real-time updates</h2>
+
+                <p>Seeing how this website gets a lot of requests, I thought that having a map that dynamically lights
+                    up
+                    for every request would be another interesting problem to try to tackle.<br />
+                    Due to time constraints, this is still not implemented (yet?), but the basic idea is to use a
+                    running Go
+                    process that waits for a connection from a client.<br />
+                    This would then spawn a linux command watching over the <strong><em>access.log</em></strong>, and
+                    for
+                    every update it would use binary search in the local database, like before, to locate it.</p>
+
+                <p>This information would then be sent to the client using SSE ( Server Side Events ), which is just a
+                    simple way to open a stream from server to client, updating every time the server gets another
+                    request.
+                </p>
+
+                <p>I started testing and implementing this function, both on client and on server side with good
+                    results,
+                    but further testing was needed and I didn’t have the time to fully address all the bugs yet. But it
+                    worked! My tests and development version, for both frontend and backend, are live in the
+                    <strong><em>instant</em></strong> branches for both repos.
+                </p>
+            </div>
+        </div>
+
+
+        <footer class="mt-40 py-6 text-center border-t border-gray-200">
             <p class="text text-gray-500">Hugo Rodriguez</p>
         </footer>
 
