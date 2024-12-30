@@ -20,7 +20,7 @@ var map = L.map("map", {
 function getColor(id) {
     let a = 80
     let b = 50
-    let percent = 0.00
+    let percent = NaN
 
 
     if (id != -1 && typeof countryData[id] !== "undefined") {
