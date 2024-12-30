@@ -14,7 +14,7 @@
 
 <body class="bg-gray-50 text-gray-900">
 
-    <div class="m-auto flex flex-col min-h-screen max-w-6xl">
+    <div class="m-auto flex flex-col min-h-screen max-w-7xl">
 
         <nav class="py-8 text-right border-b border-b-gray-200">
             <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500" href="https://hugor.me">About</a>
@@ -26,44 +26,41 @@
 
         <div class="mt-10 text-center">
             <h1 class="text-5xl font-extrabold text-gray-800 mb-4">World Map</h1>
-            <p class="text-lg text-gray-500">Displaying connections made to this website</p>
+            <p class="text-lg text-gray-500">Displaying connections made to my personal server</p>
         </div>
 
 
         <div class="grid lg:grid-cols-3 gaps-8 overflow-hidden w-full h-auto">
 
             <!-- map  -->
-
             <div class="lg:col-span-2">
-                <div class="lg:m-10 p-0 rounded-lg h-[400px] shadow-md">
+                <div class="lg:m-10 p-0 rounded-lg h-[500px] shadow-md">
                     <div class="!bg-gray-50 w-full h-full rounded border" id="map"></div>
                 </div>
-                <p class="text-center leading-9 font-sans" id="timestamp_paragraph"> </p>
-                <p class="text-center leading-9 font-sans" id="totalcount_paragraph"></p>
             </div>
 
             <!-- text -->
             <div>
                 <div class="mt-10 shadow-md bg-white p-6 text-xl font-sans rounded-lg text-gray-700">
-                    <p>
-                        In the backend server a custom-made go script
-                        that runs periodically reads and processes nginx's access log, comparing the IP addresses
-                        to a local database to determine country of origin.
-                        <br>
-                        This information is then transformed into a JSON file, which then the nginx server serves.
-                        <br>
-                        <br>
-                        In the frontend a map is created using JavaScript and the leaflet.js library.
-                        The JSON is fetched, along with a GeoJSON file which contains the countries coordinates and
-                        names.
-                        The map is then colored according to the number of hits per country of origin.
-                    </p>
-                </div>
+                    <p class="text-center leading-9 font-sans"> Updates every 15min. Last update: </p>
+                    <p class="text-center font-bold leading-9 font-sans" id="timestamp_paragraph"> </p>
+                    <br>
 
-                <div class="text-center p-6 text-xl font-sans rounded-lg text-gray-800">
+                    <div class="flex text-center justify-center space-x-1 font-sans">
+                        <p class="font-sans">Total number of requests:</p>
+                        <p class="font-bold leading-9 font-sans" id="reqCountP"></p>
+                    </div>
+
+                    <div class="flex text-center justify-center space-x-1 font-sans">
+                        <p class="">Total number of unique visitors:</p>
+                        <p class="font-bold" id="visitCountP"></p>
+                    </div>
+                </div>
+                <div class="bg-white mt-10 shadow-md text-center p-6 text-xl font-sans rounded-lg text-gray-800">
                     <a class="text-blue-500 hover:text-blue-700 underline"
                         href="https://github.com/hugorodriv/goAnalyzeNGINX">GitHub repo</a>
                 </div>
+
             </div>
 
         </div>
@@ -74,7 +71,6 @@
 
             <div class="prose !max-w-none">
                 <h1 class="text-center">Devlog</h1>
-                <h2 class="text-center">A seemingly simple challenge</h2>
 
                 <p>The task was simple: I wanted to display an interactive map with how many visits to my website I got
                     for

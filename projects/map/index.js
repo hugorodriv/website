@@ -15,7 +15,7 @@ var map = L.map("map", {
     zoomSnap: 0.25,
     maxBounds: [[-90, -180], [90, 180]],
     keyboard: false
-}).setView([60, 0], 1);
+}).setView([90, 0], 1.5);
 
 function getColor(id) {
     let a = 80
@@ -139,8 +139,11 @@ function updateTimestampParagraph(timestamp) {
 
 }
 function uptateTotalCount(totalCount, visitorsCount) {
-    var count_p = document.getElementById("totalcount_paragraph");
-    count_p.innerHTML = "Total number of requests: " + String(totalCount) + "<br> Total unique visitors: " + String(visitorsCount)
+    let reqCountP = document.getElementById("reqCountP");
+    let visCountP = document.getElementById("visitCountP");
+
+    reqCountP.textContent = String(reqCount)
+    visCountP.textContent = String(visitorsCount)
 }
 async function fillMap(response) {
     // geoJson = L.geoJson(response, { style: style(response) }).addTo(map)
