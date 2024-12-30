@@ -1,9 +1,10 @@
-var countryVisits = {};
+var countryData = {};
 var max_value;
 var popup;
 var last_country_popup;
 var geoJson;
-var totalCount = 0
+var reqCount = 0
+var visitorsCount = 0
 
 var map = L.map("map", {
     attributionControl: false,
@@ -19,8 +20,13 @@ var map = L.map("map", {
 function getColor(id) {
     let a = 80
     let b = 50
+    let percent = 0.00
 
-    let percent = countryVisits[id] / max_value
+
+    if (id != -1 && typeof countryData[id] !== "undefined") {
+        percent = countryData[id][0] / max_value; // for the coloring we use the request number
+    }
+
     let interpolated = (b * percent) + (a * (1 - percent))
 
     interpolated = interpolated || (a + 7)
@@ -28,11 +34,23 @@ function getColor(id) {
 }
 
 function getPopupText(e) {
-    var num = countryVisits[e.target.feature.id];
-    if (num === undefined) {
-        num = 0;
+    let dataArr = countryData[e.target.feature.id];
+    let numReq = 0
+    let numVisitors = 0
+
+    if (typeof dataArr !== "undefined") {
+        numReq = dataArr[0]
+        numVisitors = dataArr[1]
     }
-    return String(e.target.feature.properties.name + " : " + num)
+
+    return String(
+        "<center>" +
+        e.target.feature.properties.name + "<br><br>" +
+        "Total req. : " + numReq + "<br>" +
+        "Unique visitors: " + numVisitors +
+        "</center>"
+    )
+
 }
 
 function highlight(e) {
@@ -64,9 +82,17 @@ function resetHighlight(e) {
     last_country_popup = null;
 }
 
-function style(feature) {
+function style(id) {
+    if (id == -1) {
+        return {
+            fillColor: getColor(-1),
+            weight: 0.2,
+            color: "gray",
+            fillOpacity: 0.8
+        };
+    }
     return {
-        fillColor: getColor(feature.id),
+        fillColor: getColor(id),
         weight: 0.2,
         color: "gray",
         fillOpacity: 0.8
@@ -75,6 +101,9 @@ function style(feature) {
 
 
 async function fetchCountryData() {
+    // this JSON file cointains a list of country codes followed by a list of two ints: 
+    // The first one being the amount of req of that country, and the second is the amount of unique visitors
+
     return await fetch("countries.json", {
         method: "GET",
         headers: {
@@ -103,39 +132,44 @@ function fetchGeoJson() {
 function updateTimestampParagraph(timestamp) {
     var timestamp_p = document.getElementById("timestamp_paragraph");
 
-
     var dateObj = new Date(timestamp * 1000)
 
     var options = { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
     timestamp_p.textContent += dateObj.toLocaleDateString("en-IE", options);
 
 }
-function uptateTotalCount(totalCount) {
+function uptateTotalCount(totalCount, visitorsCount) {
     var count_p = document.getElementById("totalcount_paragraph");
-    count_p.textContent = "Total number of visits: " + String(totalCount);
+    count_p.innerHTML = "Total number of requests: " + String(totalCount) + "<br> Total unique visitors: " + String(visitorsCount)
 }
 async function fillMap(response) {
-    geoJson = L.geoJson(response, { style: style(response) }).addTo(map)
+    // geoJson = L.geoJson(response, { style: style(response) }).addTo(map)
+    geoJson = L.geoJson(response, { style: style(-1) }).addTo(map)
     geoJson.eachLayer(function (layer) {
         onEachFeature(layer.feature, layer);
     });
 
     const CountryJSON = await fetchCountryData();
 
-    countryVisits = CountryJSON["Countries"];
+    countryData = CountryJSON["Countries"];
     updateTimestampParagraph(CountryJSON["Timestamp"]);
 
 
-    max_value = Math.max(...Object.values(countryVisits));
-    Object.values(countryVisits).forEach(c => {
-        totalCount += c;
-    });
+    max_value = -1
 
-    uptateTotalCount(totalCount);
+    Object.values(countryData).forEach(c => {
+        reqCount += c[0];
+        visitorsCount += c[1];
+
+        max_value = Math.max(c[0], max_value)
+    });
+    uptateTotalCount(reqCount, visitorsCount);
 
 
     geoJson.eachLayer(function (layer) {
-        layer.setStyle(style(layer.feature));
+        console.log(layer.feature.id)
+        console.log(style(layer.feature.id))
+        layer.setStyle(style(layer.feature.id));
     });
 }
 
