@@ -31,19 +31,13 @@
 
             <!-- picture  -->
             <div class="mt-10 lg:m-10">
-                <img src="../camera.jpg" class="shadow-md rounded-lg " />
+                <img src="../camera.png" class="shadow-md rounded-lg " />
             </div>
 
             <!-- text -->
             <div>
-                <div class="mt-10 shadow-md bg-white p-6 text-xl font-sans rounded-lg text-gray-700">
-                    <p>
-                        . . .
-                    </p>
-                </div>
-
                 <div class="bg-white mt-10 shadow-md text-center p-6 text-xl font-sans rounded-lg">
-                    <div class="max-h-28 flex justify-center gap-6 m-10 w-auto black">
+                    <div class="max-h-28 flex justify-center gap-6 my-5 w-auto black">
                         <img class="h-6" src="https://www.python.org/favicon.ico" alt="python logo" title="Python">
                         <img class="h-6" src="https://opencv.org/favicon.ico" alt="opencv logo" title="OpenCV">
                         <img class="h-6" src="https://www.docker.com/favicon.ico" alt="docker logo" title="Docker">
@@ -57,16 +51,157 @@
                     </div>
 
                     <a class="text-blue-500 hover:text-blue-700 underline"
-                        href="https://github.com/hugorodriv/GunterCam">Github repo
+                        href="https://github.com/hugorodriv/GunterCam">Backend repo
                     </a>
                 </div>
+                <div class="prose"></div>
+            </div>
+
+        </div>
+        <div class="my-20 p-14 bg-white rounded-lg shadow-md">
+            <div class="prose !max-w-none">
+                <h1 class="text-center">Guntercam</h1>
+
+                <p>This project started as a weekend project; the idea was to take a picture of the family cat going
+                    in and out of the house through the cat door.</p>
+
+                <p>For the camera I originally thought of buying a PiCam, but that would also require a
+                    Raspberry sitting outside and I would need to somehow make everything waterproof, so I went in
+                    another direction.</p>
+
+                <p>I decided to use an old Android phone acting as an IP Camera (there are many apps for precisely
+                    this, I settled for <a class="text-blue-500"
+                        href="https://play.google.com/store/apps/details?id=com.pas.webcam&hl=en">this one.</a><br />
+                    Water proofing this would be much simpler as the phone by itself already is waterproof (to a
+                    degree), I just needed to connect it to electricity for continuous streaming.</p>
+
+                <p>For the backend I decided to go with a Raspberry Pi 4 I already had running with other services,
+                    the only constraint would be that I needed to develop an algorithm that would not take too many
+                    resources.</p>
+
+                <p>So, I needed to figure out a way to process these photos, somehow detect when a movement
+                    happened, and send this picture to my phone for ease of viewing.</p>
+
+                <h1></h1>
+
+                <br>
+                <h1>Capturing and fetching images</h1>
+
+                <p>The android applications provides a frontend HTTP configuration interface, as well as some
+                    endpoints, one of them being for taking a still photo.</p>
+
+                <p>It offers transit encryption through HTTPS and password protection. This was not strictly needed
+                    as the images only travel through the local network, but I enabled it to be on the safe
+                    side.<br />
+                    The Python code to fetch the images is fairly simple, with the only observation being that the
+                    certificate is not verified as it is self-signed by the android application:</p>
+
+
+                <p class="border !w-fit p-3">
+                    <code>def getImage(): <br>
+                        response = requests.get(secrets.ENDPOINT, auth=(secrets.USERNAME, secrets.PASSWORD), <br>
+                        verify=False)<br>
+                        if response.status_code == 200: <br>
+                        return Image.open(BytesIO(response.content))
+                    </code>
+                </p>
+                <em>
+                    <p>(simplified code)</p>
+                </em>
+
+
+                <br>
+                <h1>Main Loop</h1>
+
+                <p>The program consists of a <em>while</em> loop that runs forever. It starts by taking a picture
+                    and comparing it with the one taken just before. If the difference score suprasses a threshold,
+                    then it takes some more pictures consecutively, creates a GIF animation and sends them using the
+                    Telegram API</p>
+
+                <br>
+                <h1>OpenCV: Detection Algorithms</h1>
+
+                <p>To detect when a movement in front of the camera happened I decided to use OpenCV for its
+                    simplicity and good integration with Python.</p>
+
+                <p>At first I developed a very single algorithm that took the two images, downscaled them and
+                    effectively calculated the sum of the differences, pixel by pixel.</p>
+
+                <p>This algorithm worked well but it was highly sensitive to changes in lightning. Setting the
+                    threshold very high to try to compensate for this would result in “False Negatives” (movement
+                    not being detected)</p>
+
+                <p>My second approach was to try a more complex approach in which different operations to remove
+                    noise, fill in small gaps and detect shape contour movement were performed to the
+                    <em>difference</em> image.
+                </p>
+
+                <p>This resulted in much better detections. With the threshold set to 5% I got almost no False
+                    Positives and 0 False Negatives.</p>
+
+                <p>I was expecting to expand on this by further processing the images to remove shadows and
+                    different lightning artifacts, but this was not necessary and would add extra complexity and
+                    resource utilization.</p>
+
+                <p>I also did consider implementing a pre-trained ML model for object recognition, but again this
+                    didn’t end up being needed and would have required much more resource utilization.</p>
+
+                <br>
+                <h1>Telegram</h1>
+
+                <p>After having a movement detected and the GIF composed of the images leading to that detection, as
+                    well as some after the fact, this GIF is then sent to a telegram group Chat through the API.</p>
+
+                <p>The code consists of an async function that shares the GIF to a given group chat. The secrets are
+                    stored in a <strong>secrets.py</strong> file, of which there is a template in the github repo,
+                    for reference</p>
+
+                <br>
+                <h1>Docker</h1>
+
+                <p>Once I had the script working and I checked the messages were delivered correctly, I decided to
+                    Dockerize the whole thing for better management, as the rest of the services on this Raspberry
+                    Pi already run in Docker.</p>
+
+
+                <p>Building the Docker image took quite a bit of time, as some dependencies (Numpy and OpenCV
+                    especially) were quite heavy, and I decided to compile from source to have the most optimized
+                    version possible.</p>
+
+                <p>Once the Docker image was created, I transferred this Image to my Raspberry Pi and I ran it</p>
+
+                <p class="border !w-fit p-3">
+                    <code>docker load &lt;./guntercam_v2.tar <br>
+                        docker run -it -d --name guntercam --restart unless-stopped</code>
+                </p>
+                <img class="max-w-2xl" src="./portainer.jpg" alt="">
+                <em>Screenshot of <a class="text-blue-500" href="https://www.portainer.io/">Portainer</a>, a graphical
+                    interface for managing
+                    Docker containers through the
+                    browser</em></p>
+                <br>
+
+                <br>
+                <h1>Results</h1>
+
+                <p>The system is quite robust as a whole. The only problem is that sometimes the Image grabber does
+                    return a non complete image, probably due to some sort of network error or lost packet.</p>
+
+                <p>This was easily fixed with discarding this image and continuing the execution. This happens
+                    fairly rarely, so I was not too concerned about it.</p>
+
+                <p>Overall, the performance impact on my Rpi is fairly tolerable (\~60% of continuous use on one of
+                    the four CPU cores), which allows the rest of the services to run with no problems whatsoever.
+                </p>
+
+                <br>
+                <img src="./animation.gif" alt="GIF of the cat going out of the catdoor">
+                <em>Resuting gif</em>
             </div>
         </div>
         <footer class="mt-auto py-6 text-center border-t border-gray-200">
             <p class="text text-gray-500">Hugo Rodriguez</p>
         </footer>
-
-    </div>
 
 </body>
 
