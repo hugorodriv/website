@@ -7,16 +7,20 @@
     <title>Personal Website – Hugo Rodriguez</title>
 
     <link rel="icon" href="../../favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../index.css">
+    <style>body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }</style>
 </head>
 
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-gray-50 text-gray-900 antialiased">
 
-    <div class="m-auto flex flex-col min-h-screen max-w-6xl px-5 md:px-0">
+    <div class="m-auto flex flex-col min-h-screen max-w-3xl px-5 md:px-0">
 
-        <nav class="py-5 sm:py-8 text-right border-b border-b-gray-200">
-            <a class="text-gray-500 mx-3 sm:mx-5 hover:border-b-2 hover:border-b-cyan-500" href="../../">About</a>
-            <a class="font-bold mx-3 sm:mx-5 hover:border-b-2 hover:border-b-cyan-500" href="../">Projects</a>
+        <nav class="py-5 sm:py-8 flex items-center justify-end gap-1 border-b border-gray-200">
+            <a class="text-sm font-medium text-gray-500 px-4 py-1.5 rounded-full hover:bg-gray-200 hover:text-gray-900 transition-colors" href="../../">About</a>
+            <a class="text-sm font-semibold text-white bg-gray-900 px-4 py-1.5 rounded-full" href="../">Projects</a>
         </nav>
 
         <div class="mt-10 text-center">
@@ -24,52 +28,51 @@
             <p class="text-lg text-gray-500">Showcasing projects and hosting information</p>
         </div>
 
+        <div class="grid sm:grid-cols-2 gap-6 mt-8">
 
-        <div class="grid lg:grid-cols-2 gap-8 overflow-hidden w-full h-auto">
-
-            <!-- picture  -->
-            <div class="mt-10 lg:m-10">
-                <img src="../website.png" class="shadow-md rounded-lg " />
+            <!-- Screenshot -->
+            <div class="bg-white rounded-lg border border-gray-200 shadow-md p-4">
+                <img src="../website.png" class="w-full rounded object-contain" alt="website screenshot">
             </div>
 
-            <!-- text -->
-            <div class="flex-col ">
-
-                <div class="bg-white mt-10 shadow-md text-center p-6 text-xl font-sans rounded-lg">
-                    <div class="max-h-28 flex justify-center gap-6 my-6 w-auto">
-                        <img title="HTML" class="h-6"
+            <!-- Tech + repo -->
+            <div class="bg-white rounded-lg border border-gray-200 shadow-md p-6 flex flex-col justify-between">
+                <div>
+                    <p class="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4">Stack</p>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <img title="HTML" class="h-6 object-contain"
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/960px-HTML5_logo_and_wordmark.svg.png"
-                            alt="html logo">
-                        <img title="Tailwind CSS" class="h-6" src="https://tailwindcss.com/favicon.ico"
-                            alt="tailwind logo">
-                        <img title="Javascript" class="h-6"
+                            alt="HTML">
+                        <img title="Tailwind CSS" class="h-6 object-contain" src="https://tailwindcss.com/favicon.ico" alt="Tailwind">
+                        <img title="Javascript" class="h-6 object-contain"
                             src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
-                            alt="javascript logo">
-                        <img title="Nginx" class="h-6" src="https://nginx.org/favicon.ico" alt="nginx logo">
-                        <img title="Cloudflare" class="h-6" src="https://www.cloudflare.com/favicon.ico"
-                            alt="cloudflare icon">
-                        <img title="Linux" class="h-6" src="https://www.kernel.org/theme/images/logos/favicon.png"
-                            alt="linux logo">
+                            alt="JavaScript">
+                        <img title="Nginx" class="h-6 object-contain" src="https://nginx.org/favicon.ico" alt="Nginx">
+                        <img title="Cloudflare" class="h-6 object-contain" src="https://www.cloudflare.com/favicon.ico" alt="Cloudflare">
+                        <img title="Linux" class="h-6 object-contain" src="https://www.kernel.org/theme/images/logos/favicon.png" alt="Linux">
                     </div>
-
-                    <a class="text-blue-500 hover:text-blue-700 underline"
-                        href="https://github.com/hugorodriv/website">Github repo
+                </div>
+                <div class="mt-6 pt-5 border-t border-gray-100">
+                    <a class="inline-flex items-center gap-2 text-blue-500 hover:text-blue-700 font-medium underline"
+                       href="https://github.com/hugorodriv/website">
+                        <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        GitHub repo
                     </a>
                 </div>
             </div>
 
         </div>
-        <div class="mt-10 sm:mt-20 p-6 sm:p-14 bg-white rounded-lg shadow-md">
-            <div class="prose prose-sm sm:prose-base !max-w-none">
 
+        <div class="mt-8 mb-10 bg-white rounded-lg border border-gray-200 shadow-md p-6 sm:p-14">
+            <div class="prose prose-sm sm:prose-base !max-w-none">
                 <p>
                     Personal website (the one you are currently in) for showcasing contact information and
-                    various
-                    projects I am working on.
+                    various projects I am working on.
                     <br>
                     This website and all of the projects listed (some require of a backend service) are all
-                    hosted
-                    in a VPS running Debian that I manage myself.
+                    hosted in a VPS running Debian that I manage myself.
                     <br>
                     <br>
                     NGINX is used for the hosting and the other various services running in the background are
@@ -79,9 +82,11 @@
                 </p>
             </div>
         </div>
-        <footer class="mt-16 sm:mt-32 py-6 text-center border-t border-gray-200">
+
+        <footer class="mt-auto py-6 text-center border-t border-gray-200">
             <p class="text-gray-500">Hugo Rodriguez</p>
         </footer>
+
     </div>
 </body>
 
