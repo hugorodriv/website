@@ -1,30 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Personal Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Website – Hugo Rodriguez</title>
 
+    <link rel="icon" href="../../favicon.ico">
     <link rel="stylesheet" href="../../index.css">
 </head>
 
 <body class="bg-gray-50 text-gray-900">
 
-    <div class="m-auto flex flex-col min-h-screen max-w-6xl">
+    <div class="m-auto flex flex-col min-h-screen max-w-6xl px-5 md:px-0">
 
-        <nav class="py-8 text-right border-b border-b-gray-200">
-            <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500" href="https://hugor.me">About</a>
-            <a class="font-bold  mx-5 hover:border-b-2 hover:border-b-cyan-500 "
-                href="https://hugor.me/projects">Projects</a>
+        <nav class="py-5 sm:py-8 text-right border-b border-b-gray-200">
+            <a class="text-gray-500 mx-3 sm:mx-5 hover:border-b-2 hover:border-b-cyan-500" href="../../">About</a>
+            <a class="font-bold mx-3 sm:mx-5 hover:border-b-2 hover:border-b-cyan-500" href="../">Projects</a>
         </nav>
 
         <div class="mt-10 text-center">
-            <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Personal Website</h1>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 mb-4">Personal Website</h1>
             <p class="text-lg text-gray-500">Showcasing projects and hosting information</p>
         </div>
 
 
-        <div class="grid lg:grid-cols-2 gaps-8 overflow-hidden w-full h-auto">
+        <div class="grid lg:grid-cols-2 gap-8 overflow-hidden w-full h-auto">
 
             <!-- picture  -->
             <div class="mt-10 lg:m-10">
@@ -58,8 +59,8 @@
             </div>
 
         </div>
-        <div class="mt-20 p-14 bg-white rounded-lg shadow-md">
-            <div class="prose !max-w-none">
+        <div class="mt-10 sm:mt-20 p-6 sm:p-14 bg-white rounded-lg shadow-md">
+            <div class="prose prose-sm sm:prose-base !max-w-none">
 
                 <p>
                     Personal website (the one you are currently in) for showcasing contact information and
@@ -78,11 +79,9 @@
                 </p>
             </div>
         </div>
-        <footer class="mt-32 py-6 text-center border-t border-gray-200">
-            <p class="text text-gray-500">Hugo Rodriguez</p>
+        <footer class="mt-16 sm:mt-32 py-6 text-center border-t border-gray-200">
+            <p class="text-gray-500">Hugo Rodriguez</p>
         </footer>
-    </div>
-
     </div>
 </body>
 

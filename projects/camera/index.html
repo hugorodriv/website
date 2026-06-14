@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Pet detection camera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Camera – Hugo Rodriguez</title>
 
+    <link rel="icon" href="../../favicon.ico">
     <link rel="stylesheet" href="../../index.css">
 </head>
 
 <body class="bg-gray-50 text-gray-900">
 
-    <div class="m-auto flex flex-col min-h-screen max-w-6xl">
+    <div class="m-auto flex flex-col min-h-screen max-w-6xl px-5 md:px-0">
 
-        <nav class="py-8 text-right border-b border-b-gray-200">
-            <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500" href="https://hugor.me">About</a>
-            <a class="font-bold  mx-5 hover:border-b-2 hover:border-b-cyan-500 "
-                href="https://hugor.me/projects">Projects</a>
+        <nav class="py-5 sm:py-8 text-right border-b border-b-gray-200">
+            <a class="text-gray-500 mx-3 sm:mx-5 hover:border-b-2 hover:border-b-cyan-500" href="../../">About</a>
+            <a class="font-bold mx-3 sm:mx-5 hover:border-b-2 hover:border-b-cyan-500" href="../">Projects</a>
         </nav>
 
         <div class="mt-10 text-center">
-            <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Pet camera</h1>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 mb-4">Pet camera</h1>
             <p class="text-lg text-gray-500">Pet camera with movement detection and automatic picture sharing via chat.
                 Hosted locally on a Raspberry Pi using docker</p>
         </div>
 
 
-        <div class="grid lg:grid-cols-2 gaps-8 overflow-hidden w-full h-auto">
+        <div class="grid lg:grid-cols-2 gap-8 overflow-hidden w-full h-auto">
 
             <!-- picture  -->
             <div class="mt-10 lg:m-10">
@@ -35,7 +36,7 @@
             <!-- text -->
             <div>
                 <div class="bg-white mt-10 shadow-md text-center p-6 text-xl font-sans rounded-lg">
-                    <div class="max-h-28 flex justify-center gap-6 my-5 w-auto black">
+                    <div class="max-h-28 flex justify-center gap-6 my-6 w-auto">
                         <img class="h-6" src="https://www.python.org/favicon.ico" alt="python logo" title="Python">
                         <img class="h-6" src="https://opencv.org/wp-content/uploads/2020/07/cropped-Fav-192x192.png"
                             alt="opencv logo" title="OpenCV">
@@ -53,12 +54,11 @@
                         href="https://github.com/hugorodriv/GunterCam">Backend repo
                     </a>
                 </div>
-                <div class="prose"></div>
             </div>
 
         </div>
-        <div class="my-20 p-14 bg-white rounded-lg shadow-md">
-            <div class="prose !max-w-none">
+        <div class="my-10 sm:my-20 p-6 sm:p-14 bg-white rounded-lg shadow-md">
+            <div class="prose prose-sm sm:prose-base !max-w-none">
                 <h1 class="text-center">Devlog: Pet camera</h1>
 
                 <p>This project started as a weekend project; the idea was to take a picture of the family cat going
@@ -81,10 +81,7 @@
                 <p>So, I needed to figure out a way to process these photos, somehow detect when a movement
                     happened, and send this picture to my phone for ease of viewing.</p>
 
-                <h1></h1>
-
-                <br>
-                <h1>Capturing and fetching images</h1>
+                <h2>Capturing and fetching images</h2>
 
                 <p>The android applications provides a frontend HTTP configuration interface, as well as some
                     endpoints, one of them being for taking a still photo.</p>
@@ -109,16 +106,14 @@
                 </em>
 
 
-                <br>
-                <h1>Main Loop</h1>
+                <h2>Main Loop</h2>
 
                 <p>The program consists of a <em>while</em> loop that runs forever. It starts by taking a picture
                     and comparing it with the one taken just before. If the difference score suprasses a threshold,
                     then it takes some more pictures consecutively, creates a GIF animation and sends them using the
                     Telegram API</p>
 
-                <br>
-                <h1>OpenCV: Detection Algorithms</h1>
+                <h2>OpenCV: Detection Algorithms</h2>
 
                 <p>To detect when a movement in front of the camera happened I decided to use OpenCV for its
                     simplicity and good integration with Python.</p>
@@ -145,8 +140,7 @@
                 <p>I also did consider implementing a pre-trained ML model for object recognition, but again this
                     didn’t end up being needed and would have required much more resource utilization.</p>
 
-                <br>
-                <h1>Telegram</h1>
+                <h2>Telegram</h2>
 
                 <p>After having a movement detected and the GIF composed of the images leading to that detection, as
                     well as some after the fact, this GIF is then sent to a telegram group Chat through the API.</p>
@@ -155,8 +149,7 @@
                     stored in a <strong>secrets.py</strong> file, of which there is a template in the github repo,
                     for reference</p>
 
-                <br>
-                <h1>Docker</h1>
+                <h2>Docker</h2>
 
                 <p>Once I had the script working and I checked the messages were delivered correctly, I decided to
                     Dockerize the whole thing for better management, as the rest of the services on this Raspberry
@@ -173,15 +166,14 @@
                     <code>docker load &lt;./guntercam_v2.tar <br>
                         docker run -it -d --name guntercam --restart unless-stopped</code>
                 </p>
-                <img class="max-w-2xl" src="./portainer.jpg" alt="">
+                <img class="max-w-full sm:max-w-2xl" src="./portainer.jpg" alt="">
                 <em>Screenshot of <a class="text-blue-500" href="https://www.portainer.io/">Portainer</a>, a graphical
                     interface for managing
                     Docker containers through the
-                    browser</em></p>
+                    browser</em>
                 <br>
 
-                <br>
-                <h1>Results</h1>
+                <h2>Results</h2>
 
                 <p>The system is quite robust as a whole. The only problem is that sometimes the Image grabber does
                     return a non complete image, probably due to some sort of network error or lost packet.</p>
@@ -198,9 +190,11 @@
                 <em>Resulting gif</em>
             </div>
         </div>
-        <footer class="mt-32 py-6 text-center border-t border-gray-200">
-            <p class="text text-gray-500">Hugo Rodriguez</p>
+        <footer class="mt-16 sm:mt-32 py-6 text-center border-t border-gray-200">
+            <p class="text-gray-500">Hugo Rodriguez</p>
         </footer>
+
+    </div>
 
 </body>
 

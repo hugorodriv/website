@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>World map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Map – Hugo Rodriguez</title>
 
+    <link rel="icon" href="../../favicon.ico">
     <link rel="stylesheet" href="../../index.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -14,25 +16,24 @@
 
 <body class="bg-gray-50 text-gray-900">
 
-    <div class="m-auto flex flex-col min-h-screen max-w-7xl">
+    <div class="m-auto flex flex-col min-h-screen max-w-6xl px-5 md:px-0">
 
-        <nav class="py-8 text-right border-b border-b-gray-200">
-            <a class="text-gray-500 mx-5 hover:border-b-2 hover:border-b-cyan-500" href="https://hugor.me">About</a>
-            <a class="font-bold  mx-5 hover:border-b-2 hover:border-b-cyan-500 "
-                href="https://hugor.me/projects">Projects</a>
+        <nav class="py-5 sm:py-8 text-right border-b border-b-gray-200">
+            <a class="text-gray-500 mx-3 sm:mx-5 hover:border-b-2 hover:border-b-cyan-500" href="../../">About</a>
+            <a class="font-bold mx-3 sm:mx-5 hover:border-b-2 hover:border-b-cyan-500" href="../">Projects</a>
         </nav>
 
         <div class="mt-10 text-center">
-            <h1 class="text-5xl font-extrabold text-gray-800 mb-4">World Map</h1>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 mb-4">World Map</h1>
             <p class="text-lg text-gray-500">Displaying connections made to my personal server</p>
         </div>
 
 
-        <div class="grid lg:grid-cols-3 gaps-8 overflow-hidden w-full h-auto">
+        <div class="grid lg:grid-cols-3 gap-8 overflow-hidden w-full h-auto">
 
             <!-- map  -->
             <div class="lg:col-span-2">
-                <div class="lg:m-10 p-0 rounded-lg h-[500px] shadow-md">
+                <div class="mt-10 lg:m-10 p-0 rounded-lg h-[500px] shadow-md">
                     <div class="!bg-gray-50 w-full h-full rounded border" id="map"></div>
                 </div>
             </div>
@@ -55,10 +56,10 @@
                     </div>
                 </div>
                 <div class="bg-white mt-10 shadow-md text-center p-6 text-xl font-sans rounded-lg">
-                    <div class="max-h-28 flex justify-center gap-6 mb-8 mt-3 w-auto black">
-                        <img title="Golang" class="h-5"
+                    <div class="max-h-28 flex justify-center gap-6 my-6 w-auto">
+                        <img title="Golang" class="h-6"
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Go_Logo_Blue.svg/3840px-Go_Logo_Blue.svg.png"
-                            alt="golang logo" title="Golang">
+                            alt="golang logo">
                         <img title="HTML" class="h-6"
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/960px-HTML5_logo_and_wordmark.svg.png"
                             alt="html logo">
@@ -86,9 +87,9 @@
 
 
         <!-- Article -->
-        <div class="mt-20 p-14 bg-white rounded-lg shadow-md">
+        <div class="mt-10 sm:mt-20 p-6 sm:p-14 bg-white rounded-lg shadow-md">
 
-            <div class="prose !max-w-none">
+            <div class="prose prose-sm sm:prose-base !max-w-none">
                 <h1 class="text-center">Devlog: Map</h1>
 
                 <p>The task was simple: I wanted to display an interactive map with how many visits to my website I got
@@ -162,8 +163,6 @@
                 <p>Both of these code styles are ISO standards, so I built a simple python script that used a lookup
                     table
                     to translate them locally and modify the database.</p>
-
-                <h2></h2>
 
                 <h2>Reading through the log file</h2>
 
@@ -253,7 +252,7 @@
                     <code>*/15 * * * * /home/user/runGoAnalyse.sh</code>
                 </p>
 
-                <br <h1>Displaying the information</h1>
+                <br><h1>Displaying the information</h1>
 
                 <p>I opted for using the <a class="text-blue-500" href="https://github.com/Leaflet/Leaflet">Leaflet</a>
                     library to
@@ -336,8 +335,8 @@
         </div>
 
 
-        <footer class="mt-32 py-6 text-center border-t border-gray-200">
-            <p class="text text-gray-500">Hugo Rodriguez</p>
+        <footer class="mt-16 sm:mt-32 py-6 text-center border-t border-gray-200">
+            <p class="text-gray-500">Hugo Rodriguez</p>
         </footer>
 
     </div>
